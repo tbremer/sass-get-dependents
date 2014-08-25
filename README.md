@@ -8,4 +8,5 @@ dependentFiles = require('sass-get-dependencies');
 
 // Array of dependent files
 var files = dependentFiles(src);
+console.log(files);
 ```
