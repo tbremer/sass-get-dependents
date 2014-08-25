@@ -22,6 +22,9 @@
     "url": "https://github.com/tbremer/sass-partial-dependencies/issues"
   },
   "homepage": "https://github.com/tbremer/sass-partial-dependencies",
+  "dependencies": {
+    "chalk": "^0.5.1"
+  },
   "devDependencies": {
     "jshint": "^2.5.5"
   }

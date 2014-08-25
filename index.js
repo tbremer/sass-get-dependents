@@ -8,8 +8,11 @@
 'use strict';
 var fs = require('fs');
 var path = require('path');
+var chalk = require('chalk');
 
 module.exports = function(needle, haystack) {
+	console.log(chalk.red.bhWhite('hello'));
+	console.log(chalk.red.bgWhite(needle));
 	if (haystack==='undefined') {
 		console.log('nope');
 	}
