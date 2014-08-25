@@ -1,0 +1,28 @@
+{
+  "name": "sass-partial-dependencies",
+  "version": "0.0.1",
+  "description": "Track files that depend on your SCSS/SASS partial.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tbremer/sass-partial-dependencies.git"
+  },
+  "keywords": [
+    "scss",
+    "sass",
+    "partial",
+    "css"
+  ],
+  "author": "Thomas Bremer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tbremer/sass-partial-dependencies/issues"
+  },
+  "homepage": "https://github.com/tbremer/sass-partial-dependencies",
+  "devDependencies": {
+    "jshint": "^2.5.5"
+  }
+}
