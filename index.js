@@ -44,9 +44,6 @@
 	haystack = _.without(haystack, needle);
 
 	_.each(haystack, function(straw, index, array) {
-		if (isVerbose) {
-			console.log('Current file: ' + chalk.cyan(path.basename(straw)));
-		}
 		var thisContents, relPath, isDependent, isPartial;
 		thisContents = fs.readFileSync(straw, {encoding: 'utf8'});
 		relPath = path.relative(straw, needle).replace('../', '').replace('/_','/').replace(ext, '');
@@ -79,7 +76,7 @@
 	}
 	var timerEnd = Date.now();
 	if (isVerbose) {
-		console.log('Dependent Files took: ' + chalk.cyan((timerEnd - timerStart) + 'ms'));
+		console.log('sass-get-dependencies took: ' + chalk.cyan((timerEnd - timerStart) + 'ms'));
 	}
 	return dependentFiles;
 };
