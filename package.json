@@ -1,5 +1,5 @@
 {
-  "name": "sass-partial-dependencies",
+  "name": "sass-get-dependencies",
   "version": "0.0.1",
   "description": "Track files that depend on your SCSS/SASS partial.",
   "main": "index.js",
