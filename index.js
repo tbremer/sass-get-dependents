@@ -18,27 +18,32 @@
 		console.log(chalk.white.bgRed('File doesn\'t exist.'));
 		return false;
 	}
+	// Check if file is a *.css file, SASS doesn't import those
 	if (path.extname(needle) === '.css') {
 		console.log(chalk.white.bgRed('SASS won\'t import *.css files'));
 		return false;
 	}
+
+	// We have passed our base checks, lets define some variables.
 	var dependentFiles = [],
 	ext = path.extname(needle);
 
+	// If a hastack wasn't sent in, then we define it here. We also remove the needle from the haystack.
 	if (haystack === undefined) {
 		haystack = glob.sync('**/*' + ext);
 	}
-
 	haystack = _.without(haystack, needle);
+
 	_.each(haystack, function(straw) {
-		var thisContents = fs.readFileSync(straw, {encoding: 'utf8'});
-		var relPath = path.relative(straw, needle).replace('../', '').replace('/_','/').replace(ext, '');
-		if(relPath.substring(0,1) === '_') {
+		var thisContents, relPath, isDependent, isPartial;
+		thisContents = fs.readFileSync(straw, {encoding: 'utf8'});
+		relPath = path.relative(straw, needle).replace('../', '').replace('/_','/').replace(ext, '');
+		if(relPath[0] === '_') {
 			relPath.replace('_','');
 		}
-		var isDependent = thisContents.indexOf(relPath) !== -1 ? true : false;
+		isDependent = thisContents.indexOf(relPath) !== -1 ? true : false;
 		if(isDependent) {
-			var isPartial = path.basename(straw)[0] === '_' ? true : false;
+			isPartial = path.basename(straw)[0] === '_' ? true : false;
 			if(isPartial) {
 				haystack.push(straw);
 			} else {
