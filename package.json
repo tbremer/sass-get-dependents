@@ -23,7 +23,9 @@
   },
   "homepage": "https://github.com/tbremer/sass-partial-dependencies",
   "dependencies": {
-    "chalk": "^0.5.1"
+    "chalk": "^0.5.1",
+    "glob": "^4.0.5",
+    "underscore": "^1.6.0"
   },
   "devDependencies": {
     "jshint": "^2.5.5"
