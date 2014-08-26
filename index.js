@@ -13,20 +13,29 @@
  var _ = require('underscore');
 
  module.exports = function(needle, haystack) {
+ 	var timerStart = Date.now();
+ 	var isVerbose = (process.argv.indexOf('--verbose') !== -1 || process.argv.indexOf('-v') !== -1) ? true : false;
+
 	// Check if file exists | return false
 	if (!fs.existsSync(needle)) {
-		console.log(chalk.white.bgRed('File doesn\'t exist.'));
+		if (isVerbose) {
+			console.log(chalk.cyan('File doesn\'t exist.'));
+		}
 		return false;
 	}
 	// Check if file is a *.css file, SASS doesn't import those
 	if (path.extname(needle) === '.css') {
-		console.log(chalk.white.bgRed('SASS won\'t import *.css files'));
+		if (isVerbose) {
+			console.log(chalk.cyan('SASS won\'t import *.css files'));
+		}
 		return false;
 	}
 
+	//Look for verbose for logging options
 	// We have passed our base checks, lets define some variables.
+
 	var dependentFiles = [],
-	ext = path.extname(needle);
+	    ext            = path.extname(needle);
 
 	// If a hastack wasn't sent in, then we define it here. We also remove the needle from the haystack.
 	if (haystack === undefined) {
@@ -34,23 +43,43 @@
 	}
 	haystack = _.without(haystack, needle);
 
-	_.each(haystack, function(straw) {
+	_.each(haystack, function(straw, index, array) {
+		if (isVerbose) {
+			console.log('Current file: ' + chalk.cyan(path.basename(straw)));
+		}
 		var thisContents, relPath, isDependent, isPartial;
 		thisContents = fs.readFileSync(straw, {encoding: 'utf8'});
 		relPath = path.relative(straw, needle).replace('../', '').replace('/_','/').replace(ext, '');
-		if(relPath[0] === '_') {
-			relPath.replace('_','');
+		if (relPath[0] === '_') {
+			relPath = relPath.replace('_','');
 		}
 		isDependent = thisContents.indexOf(relPath) !== -1 ? true : false;
-		if(isDependent) {
+		if (isDependent) {
 			isPartial = path.basename(straw)[0] === '_' ? true : false;
-			if(isPartial) {
-				haystack.push(straw);
+			if (isPartial) {
+				if (isVerbose) {
+					console.log(chalk.cyan(path.basename(needle)), chalk.white(' is a partial, adding it to the haystack'));
+				}
+				array.push(needle);
 			} else {
 				dependentFiles.push(straw);
 			}
 		}
 	});
 
+
+	if(dependentFiles.length === 0) {
+		if (isVerbose) {
+			console.log(chalk.cyan(path.basename(needle)), chalk.white(' does not have any dependencies'));
+		}
+		return false;
+	}
+	if (isVerbose) {
+		console.log('Dependencies: ' + chalk.cyan(dependentFiles.join(', ')));
+	}
+	var timerEnd = Date.now();
+	if (isVerbose) {
+		console.log('Dependent Files took: ' + chalk.cyan((timerEnd - timerStart) + 'ms'));
+	}
 	return dependentFiles;
 };
