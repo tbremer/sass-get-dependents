@@ -2,29 +2,40 @@
   "name": "sass-get-dependencies",
   "version": "0.1.0",
   "description": "Track files that depend on your SCSS/SASS partial.",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/tbremer/sass-partial-dependencies.git"
+  "repository": "tbremer/sass-get-dependencies",
+  "bugs": {
+    "url": "https://github.com/tbremer/sass-get-dependencies/issues"
   },
+  "homepage": "https://github.com/tbremer/sass-get-dependencies",
   "keywords": [
     "scss",
     "sass",
     "partial",
     "css"
   ],
-  "author": "Thomas Bremer",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/tbremer/sass-partial-dependencies/issues"
+  "author": {
+    "name": "Thomas Bremer",
+    "email": "tom@tbremer.com",
+    "url": "http://mise.io"
   },
-  "homepage": "https://github.com/tbremer/sass-partial-dependencies",
+  "bin": {
+    "getDependencies": "./index.js"
+  },
+  "scripts": {
+    "hint": "jshint index.js",
+    "test": "mocha **/test.js"
+  },
   "dependencies": {
     "chalk": "^0.5.1",
     "glob": "^4.0.5",
     "underscore": "^1.6.0"
   },
   "devDependencies": {
-    "jshint": "^2.5.5"
-  }
+    "expect.js": "^0.3.1",
+    "jshint": "^2.5.5",
+    "mocha": "^1.21.4"
+  },
+  "files": [
+    "index.js"
+  ]
 }
