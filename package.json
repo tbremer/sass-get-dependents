@@ -1,6 +1,6 @@
 {
   "name": "sass-get-dependencies",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Track files that depend on your SCSS/SASS partial.",
   "repository": "tbremer/sass-get-dependencies",
   "bugs": {
