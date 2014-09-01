@@ -14,14 +14,7 @@ var chalk = require('/Users/tom.bremer/vagrant/www/gruntjs/stable/chalk');
 var fs = require('fs');
 var glob = require('/Users/tom.bremer/vagrant/www/gruntjs/stable/glob');
 var path = require('path');
-
-
-// does needle exist ✓
-// is needle a valid file type ✓
-// readFile
-// does read have an import
-// does import match relpath
-// build
+var isVerbose = (process.argv.indexOf('--verbose') !== -1 || process.argv.indexOf('-v') !== -1) ? true : false;
 
 var escapeDirectories = function (string) {
 	return string.replace(/\//g, "\\/");
@@ -62,15 +55,16 @@ var readImportStatements = function (file, statements) {
 };
 
 module.exports = function (source) {
-	console.log('Checking ' + chalk.cyan(source));
+	if (isVerbose) {
+		console.log('Checking ' + chalk.cyan(source));
+	}
+
 	// Initial file checks -- does exist?.
 	if (!fs.existsSync(source)) {
-		console.log('1');
 		return false;
 	}
 	// Initial file checks -- is css?
 	if (path.extname(source) === '.css') {
-		console.log('2');
 		return false;
 	}
 
@@ -82,9 +76,10 @@ module.exports = function (source) {
 	var allRelPaths = [];
 	var allDependentFiles = [];
 
-	console.log(chalk.cyan('These files have import statements:'));
-	console.log(filesWithImports);
-	console.log();
+	if (isVerbose) {
+		console.log(chalk.cyan('These files have import statements:'));
+		console.log(filesWithImports);
+	}
 
 	// We have files with import statements, now lets build relPaths to check.
 	filesWithImports.forEach(function (cur, index, filesWithImports) {
@@ -94,10 +89,10 @@ module.exports = function (source) {
 		}
 	});
 
-	console.log(chalk.cyan('These are the relative paths:'));
-	console.log(allRelPaths);
-	console.log();
-
+	if (isVerbose) {
+		console.log(chalk.cyan('These are the relative paths:'));
+		console.log(allRelPaths);
+	}
 
 	// We have relPaths, lets check the files with import statements.
 	filesWithImports.forEach(function (cur, index, filesWithImports) {
@@ -108,13 +103,15 @@ module.exports = function (source) {
 	allDependentFiles = _.flatten(allDependentFiles);
 
 	if (allDependentFiles.length > 0) {
-		console.log(chalk.cyan('These are all the dependentFiles:'));
-		console.log(allDependentFiles);
-		console.log();
+		if (isVerbose) {
+			console.log(chalk.cyan('These are all the dependentFiles:'));
+			console.log(allDependentFiles);
+		}
 		return allDependentFiles;
 	}
 }
 
+// Executable bits
 var args = process.argv;
 var encoding = {encoding: 'utf8'};
 var fileRegEx = /--file=[a-zA-Z0-9.-_\/]+/;
@@ -130,6 +127,8 @@ args.forEach(function (cur, index, args) {
 files.forEach(function (cur, index, files) {
 	module.exports(cur);
 });
-var endTime = Date.now();
 
-console.log(endTime - startTime + 'ms to complete');
+if (isVerbose) {
+	var endTime = Date.now();
+	console.log(endTime - startTime + 'ms to complete');
+}
