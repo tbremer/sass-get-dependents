@@ -62,11 +62,11 @@ module.exports = function (source) {
 
 	// Initial file checks -- does exist?.
 	if (!fs.existsSync(source)) {
-		return false;
+		return [];
 	}
 	// Initial file checks -- is css?
 	if (path.extname(source) === '.css') {
-		return false;
+		return [];
 	}
 
 	// Okay, the basics are there. Lets build the patterns

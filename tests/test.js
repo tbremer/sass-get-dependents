@@ -1,12 +1,11 @@
 'use strict';
 var assert = require('assert');
-var expect = require('expect.js');
 var dependsOn = require("../");
 
 var partials = 'tests/fixtures/partials';
 var fixtures = 'tests/fixtures';
 
-var notCreated = partials + '/not_real.scss';
+var notCreated = partials + '/_not_real.scss';
 var css = partials + '/_dependentFiles_test_css.css';
 
 var scss = partials + '/_dependentFiles_test_scss.scss';
@@ -17,12 +16,16 @@ var multipleFiles = partials + '/_import_in_two_files.scss';
 describe('sass-get-dependencies', function () {
 	it('fails when files don\'t exist', function () {
 		var actual = dependsOn(notCreated);
-		expect(actual).to.be(false);
+		var expected = [];
+
+		assert.deepEqual(actual, expected);
 	});
 
 	it('doesn\'t test *.css files', function () {
 		var actual = dependsOn(css);
-		expect(actual).to.be(false);
+		var expected = [];
+
+		assert.deepEqual(actual, expected);
 	});
 
 	it('reads files', function () {
