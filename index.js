@@ -9,12 +9,13 @@
 */
 'use strict';
 var startTime = Date.now();
-var _ = require('/Users/tom.bremer/vagrant/www/gruntjs/stable/underscore');
-var chalk = require('/Users/tom.bremer/vagrant/www/gruntjs/stable/chalk');
+var _ = require('underscore');
+var chalk = require('chalk');
 var fs = require('fs');
-var glob = require('/Users/tom.bremer/vagrant/www/gruntjs/stable/glob');
+var glob = require('glob');
 var path = require('path');
 var isVerbose = (process.argv.indexOf('--verbose') !== -1 || process.argv.indexOf('-v') !== -1) ? true : false;
+var encoding = {encoding: 'utf8'};
 
 var escapeDirectories = function (string) {
 	return string.replace(/\//g, "\\/");
@@ -34,7 +35,7 @@ var checkForImports = function (src) {
 };
 
 var buildRelPaths = function (from, to, ext) {
-	var curPath = path.relative(from, to).replace('../','').replace('/_','/').replace(ext, '')
+	var curPath = path.relative(from, to).replace('../','').replace('/_','/').replace(ext, '');
 
 	if (path.basename(curPath)[0] === "_") {
 		curPath = curPath.replace('_', '');
@@ -85,7 +86,7 @@ module.exports = function (source) {
 	filesWithImports.forEach(function (cur, index, filesWithImports) {
 		var relPaths = buildRelPaths(cur, source, fileExt);
 		if (relPaths.length > 0 && allRelPaths.indexOf(relPaths) === -1) {
-			allRelPaths.push(relPaths)
+			allRelPaths.push(relPaths);
 		}
 	});
 
@@ -109,11 +110,10 @@ module.exports = function (source) {
 		}
 		return allDependentFiles;
 	}
-}
+};
 
 // Executable bits
 var args = process.argv;
-var encoding = {encoding: 'utf8'};
 var fileRegEx = /--file=[a-zA-Z0-9.-_\/]+/;
 var files = [];
 
