@@ -9,7 +9,6 @@
 */
 'use strict';
 var startTime = Date.now();
-var _ = require('underscore');
 var chalk = require('chalk');
 var fs = require('fs');
 var glob = require('glob');
@@ -101,7 +100,9 @@ module.exports = function (source) {
 		allDependentFiles.push(push);
 	});
 
-	allDependentFiles = _.flatten(allDependentFiles);
+	var allDependentFiles = allDependentFiles.reduce(function(a, b) {
+	    return a.concat(b);
+	});
 
 	if (allDependentFiles.length > 0) {
 		if (isVerbose) {

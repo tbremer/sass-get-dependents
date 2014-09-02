@@ -1,6 +1,6 @@
 {
   "name": "sass-get-dependencies",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Track files that depend on your SCSS/SASS partial.",
   "repository": "tbremer/sass-get-dependencies",
   "bugs": {
@@ -28,8 +28,7 @@
   },
   "dependencies": {
     "chalk": "^0.5.1",
-    "glob": "^4.0.5",
-    "underscore": "^1.6.0"
+    "glob": "^4.0.5"
   },
   "devDependencies": {
     "jshint": "^2.5.5",
