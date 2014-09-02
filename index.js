@@ -78,7 +78,7 @@ module.exports = function (source) {
 	var allDependentFiles = [];
 
 	verbose.log('These files have import statements:');
-	verbose.error(filesWithImports).linebreak();
+	verbose.log(filesWithImports).linebreak();
 
 	// We have files with import statements, now lets build relPaths to check.
 	filesWithImports.forEach(function (cur) {
