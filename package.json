@@ -1,12 +1,12 @@
 {
-  "name": "sass-get-dependencies",
+  "name": "sass-get-dependents",
   "version": "0.1.5",
   "description": "Track files that depend on your SCSS/SASS partial.",
-  "repository": "tbremer/sass-get-dependencies",
+  "repository": "tbremer/sass-get-dependents",
   "bugs": {
-    "url": "https://github.com/tbremer/sass-get-dependencies/issues"
+    "url": "https://github.com/tbremer/sass-get-dependents/issues"
   },
-  "homepage": "https://github.com/tbremer/sass-get-dependencies",
+  "homepage": "https://github.com/tbremer/sass-get-dependents",
   "keywords": [
     "scss",
     "sass",
@@ -19,7 +19,7 @@
     "url": "http://mise.io"
   },
   "bin": {
-    "getDependencies": "./index.js"
+    "getDependents": "./index.js"
   },
   "scripts": {
     "hint": "jshint index.js; jshint tests/test.js",

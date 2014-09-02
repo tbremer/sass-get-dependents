@@ -13,7 +13,7 @@ var sass = partials + '/_dependentFiles_test_sass.sass';
 var scssTwoDeep = partials + '/_import_into_partial_scss.scss';
 var multipleFiles = partials + '/_import_in_two_files.scss';
 
-describe('sass-get-dependencies', function () {
+describe('sass-get-dependents', function () {
 	it('fails when files don\'t exist', function () {
 		var actual = dependsOn(notCreated);
 		var expected = [];
@@ -49,37 +49,3 @@ describe('sass-get-dependencies', function () {
 		assert.deepEqual(actual, expected);
 	});
 });
-
-
-
-// describe('sass-get-dependencies', function () {
-// 	it('returns files dependent on scss files', function () {
-// 		var actual = dependsOn(scss);
-// 		var expected = [
-// 			fixtures + '/import_partial_scss.scss'
-// 		];
-// 		assert.deepEqual(actual, expected);
-// 	});
-
-// 	it('returns files dependent on sass files', function () {
-// 		var actual = dependsOn(sass);
-// 		var expected = [
-// 			fixtures + '/import_partial_sass.sass'
-// 		];
-// 		assert.deepEqual(actual, expected);
-// 	});
-
-// 	it('does not process css files', function () {
-// 		var actual = dependsOn(css);
-// 		var expected = false;
-// 		expect(actual).to.be(false);
-// 	});
-
-// 	it('finds when partials require partials', function () {
-// 		var actual = dependsOn(scssTwoDeep);
-// 		var expected = [
-// 			fixtures + '/partial_two_deep_scss.scss'
-// 		];
-// 		assert.deepEqual(actual, expected);
-// 	});
-// });

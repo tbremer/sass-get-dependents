@@ -1,8 +1,8 @@
 #!/usr/local/bin/node
 
 /*
- * sass-get-dependencies
- * https://github.com/tbremer/sass-get-dependencies
+ * sass-get-dependents
+ * https://github.com/tbremer/sass-get-dependents
  *
  * Copyright (c) 2014 Thomas Bremer, contributors
  * Licensed under the MIT license.
@@ -100,8 +100,8 @@ module.exports = function (source) {
 		allDependentFiles.push(push);
 	});
 
-	var allDependentFiles = allDependentFiles.reduce(function(a, b) {
-	    return a.concat(b);
+	var allDependentFiles = allDependentFiles.reduce(function(prev, cur) {
+	    return prev.concat(cur);
 	});
 
 	if (allDependentFiles.length > 0) {
