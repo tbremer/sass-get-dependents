@@ -1,5 +1,4 @@
 #!/usr/local/bin/node
-
 /*
  * sass-get-dependents
  * https://github.com/tbremer/sass-get-dependents
@@ -9,22 +8,16 @@
 */
 'use strict';
 var startTime = Date.now();
-var chalk = require('chalk');
 var fs = require('fs');
 var glob = require('glob');
-var path = require('path');
 var nopt = require("nopt");
+var path = require('path');
+var verbose = require('verboser');
 var knownOpts = {
-	"verbose": Boolean,
 	"file": String
 };
-var shortHands = {
-	"v": ["--verbose"]
-};
-var args = nopt(knownOpts, shortHands);
-var isVerbose = args.verbose ? true : false;
+var args = nopt(knownOpts);
 var encoding = {encoding: 'utf8'};
-var fileRegEx = /--file=[a-zA-Z0-9.-_\/]+/;
 
 var escapeDirectories = function (string) {
 	return string.replace(/\//g, "\\/");
@@ -65,9 +58,7 @@ var readImportStatements = function (file, statements) {
 };
 
 module.exports = function (source) {
-	if (isVerbose) {
-		console.log('Checking ' + chalk.cyan(source));
-	}
+	verbose.log('Checking ' + source).linebreak();
 
 	// Initial file checks -- does exist?.
 	if (!fs.existsSync(source)) {
@@ -86,10 +77,8 @@ module.exports = function (source) {
 	var allRelPaths = [];
 	var allDependentFiles = [];
 
-	if (isVerbose) {
-		console.log(chalk.cyan('These files have import statements:'));
-		console.log(filesWithImports);
-	}
+	verbose.log('These files have import statements:');
+	verbose.error(filesWithImports).linebreak();
 
 	// We have files with import statements, now lets build relPaths to check.
 	filesWithImports.forEach(function (cur) {
@@ -99,10 +88,8 @@ module.exports = function (source) {
 		}
 	});
 
-	if (isVerbose) {
-		console.log(chalk.cyan('These are the relative paths:'));
-		console.log(allRelPaths);
-	}
+	verbose.log('These are the relative paths:');
+	verbose.log(allRelPaths);
 
 	// We have relPaths, lets check the files with import statements.
 	filesWithImports.forEach(function (cur) {
@@ -110,26 +97,22 @@ module.exports = function (source) {
 		allDependentFiles.push(push);
 	});
 
-	var allDependentFiles = allDependentFiles.reduce(function(prev, cur) {
+	allDependentFiles = allDependentFiles.reduce(function(prev, cur) {
 	    return prev.concat(cur);
 	});
 
 	if (allDependentFiles.length > 0) {
-		if (isVerbose) {
-			console.log(chalk.cyan('These are all the dependentFiles:'));
-			console.log(allDependentFiles);
-		}
+		verbose.log('These are all the dependentFiles:');
+		verbose.log(allDependentFiles);
 		return allDependentFiles;
 	}
 };
 
 // Executable bits
 if (args.file) {
-	isVerbose = true;
+	verbose.force();
 	module.exports(args.file);
 }
 
-if (isVerbose) {
-	var endTime = Date.now();
-	console.log(chalk.cyan(endTime - startTime + 'ms to complete'));
-}
+var endTime = Date.now();
+verbose.log(endTime - startTime + 'ms to complete');
