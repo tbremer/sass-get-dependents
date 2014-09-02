@@ -24,7 +24,7 @@ var checkForImports = function (src) {
 	var contents;
 	var importRegEx = new RegExp("@import");
 	var matchingFiles = [];
-	src.forEach(function (cur, index, src) {
+	src.forEach(function (cur) {
 		contents = fs.readFileSync(cur, encoding);
 		if (importRegEx.test(contents) && matchingFiles.indexOf(cur) === -1) {
 			matchingFiles.push(cur);
@@ -45,7 +45,7 @@ var buildRelPaths = function (from, to, ext) {
 var readImportStatements = function (file, statements) {
 	var contents = fs.readFileSync(file, encoding);
 	var dependentFiles = [];
-	statements.forEach(function (curStatement, index, array) {
+	statements.forEach(function (curStatement) {
 		curStatement = new RegExp(escapeDirectories(curStatement));
 		if (curStatement.test(contents) && dependentFiles.indexOf(file) === -1) {
 			dependentFiles.push(file);
@@ -82,7 +82,7 @@ module.exports = function (source) {
 	}
 
 	// We have files with import statements, now lets build relPaths to check.
-	filesWithImports.forEach(function (cur, index, filesWithImports) {
+	filesWithImports.forEach(function (cur) {
 		var relPaths = buildRelPaths(cur, source, fileExt);
 		if (relPaths.length > 0 && allRelPaths.indexOf(relPaths) === -1) {
 			allRelPaths.push(relPaths);
@@ -95,7 +95,7 @@ module.exports = function (source) {
 	}
 
 	// We have relPaths, lets check the files with import statements.
-	filesWithImports.forEach(function (cur, index, filesWithImports) {
+	filesWithImports.forEach(function (cur) {
 		var push = readImportStatements(cur, allRelPaths);
 		allDependentFiles.push(push);
 	});
@@ -118,14 +118,14 @@ var args = process.argv;
 var fileRegEx = /--file=[a-zA-Z0-9.-_\/]+/;
 var files = [];
 
-args.forEach(function (cur, index, args) {
+args.forEach(function (cur) {
 	if (fileRegEx.test(cur)) {
 		var file = cur.split('=').pop();
 		files.push(file);
 	}
 });
 
-files.forEach(function (cur, index, files) {
+files.forEach(function (cur) {
 	module.exports(cur);
 });
 
