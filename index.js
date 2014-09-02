@@ -13,8 +13,18 @@ var chalk = require('chalk');
 var fs = require('fs');
 var glob = require('glob');
 var path = require('path');
-var isVerbose = (process.argv.indexOf('--verbose') !== -1 || process.argv.indexOf('-v') !== -1) ? true : false;
+var nopt = require("nopt");
+var knownOpts = {
+	"verbose": Boolean,
+	"file": String
+};
+var shortHands = {
+	"v": ["--verbose"]
+};
+var args = nopt(knownOpts, shortHands);
+var isVerbose = args.verbose ? true : false;
 var encoding = {encoding: 'utf8'};
+var fileRegEx = /--file=[a-zA-Z0-9.-_\/]+/;
 
 var escapeDirectories = function (string) {
 	return string.replace(/\//g, "\\/");
@@ -114,22 +124,12 @@ module.exports = function (source) {
 };
 
 // Executable bits
-var args = process.argv;
-var fileRegEx = /--file=[a-zA-Z0-9.-_\/]+/;
-var files = [];
-
-args.forEach(function (cur) {
-	if (fileRegEx.test(cur)) {
-		var file = cur.split('=').pop();
-		files.push(file);
-	}
-});
-
-files.forEach(function (cur) {
-	module.exports(cur);
-});
+if (args.file) {
+	isVerbose = true;
+	module.exports(args.file);
+}
 
 if (isVerbose) {
 	var endTime = Date.now();
-	console.log(endTime - startTime + 'ms to complete');
+	console.log(chalk.cyan(endTime - startTime + 'ms to complete'));
 }
