@@ -19,10 +19,6 @@ var knownOpts = {
 var args = nopt(knownOpts);
 var encoding = {encoding: 'utf8'};
 
-var escapeDirectories = function (string) {
-	return string.replace(/\//g, "\\/");
-};
-
 var checkForImports = function (src) {
 	var contents;
 	var importRegEx = new RegExp("@import");
@@ -36,25 +32,20 @@ var checkForImports = function (src) {
 	return matchingFiles;
 };
 
-var buildRelPaths = function (from, to, ext) {
-	var curPath = path.relative(from, to).replace('../','').replace('/_','/').replace(ext, '');
-
-	if (path.basename(curPath)[0] === "_") {
-		curPath = curPath.replace('_', '');
-	}
-	return curPath;
-};
-
 var readImportStatements = function (file, statements) {
-	var contents = fs.readFileSync(file, encoding);
-	var dependentFiles = [];
-	statements.forEach(function (curStatement) {
-		curStatement = new RegExp(escapeDirectories(curStatement));
-		if (curStatement.test(contents) && dependentFiles.indexOf(file) === -1) {
-			dependentFiles.push(file);
+	var contents;
+	var matchingFiles = [];
+	var basename = path.basename(file, (path.extname(file)));
+	var fileName = (basename[0] === '_') ? basename.substring(1, basename.length) : basename;
+	var importRegEx = new RegExp('@import[\\s]+([\'|"./\\w]+?)' + fileName + '[\'|"];?');
+
+	statements.forEach(function (cur) {
+		contents = fs.readFileSync(cur, encoding);
+		if (importRegEx.test(contents) == true) {
+			matchingFiles.push(cur);
 		}
 	});
-	return dependentFiles;
+	return matchingFiles;
 };
 
 module.exports = function (source) {
@@ -73,39 +64,17 @@ module.exports = function (source) {
 	var fileExt = path.extname(source);
 	var fileSearch = glob.sync('**/*' + fileExt);
 	var filesWithImports = checkForImports(fileSearch);
-	var hasPartiasl = true;
 	var allRelPaths = [];
 	var allDependentFiles = [];
 
 	verbose.log('These files have import statements:');
 	verbose.log(filesWithImports).linebreak();
 
-	// We have files with import statements, now lets build relPaths to check.
-	filesWithImports.forEach(function (cur) {
-		var relPaths = buildRelPaths(cur, source, fileExt);
-		if (relPaths.length > 0 && allRelPaths.indexOf(relPaths) === -1) {
-			allRelPaths.push(relPaths);
-		}
-	});
+	allDependentFiles = readImportStatements(source, filesWithImports);
 
-	verbose.log('These are the relative paths:');
-	verbose.log(allRelPaths);
-
-	// We have relPaths, lets check the files with import statements.
-	filesWithImports.forEach(function (cur) {
-		var push = readImportStatements(cur, allRelPaths);
-		allDependentFiles.push(push);
-	});
-
-	allDependentFiles = allDependentFiles.reduce(function(prev, cur) {
-	    return prev.concat(cur);
-	});
-
-	if (allDependentFiles.length > 0) {
-		verbose.log('These are all the dependentFiles:');
-		verbose.log(allDependentFiles);
-		return allDependentFiles;
-	}
+	verbose.log('These are all the dependentFiles:');
+	verbose.log(allDependentFiles);
+	return allDependentFiles;
 };
 
 // Executable bits

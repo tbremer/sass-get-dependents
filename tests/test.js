@@ -35,7 +35,7 @@ describe('sass-get-dependents', function () {
 		assert.deepEqual(actual, expected);
 	});
 
-	it('returns when partials import partias', function () {
+	it('returns when partials import partials', function () {
 		var actual = dependsOn(scssTwoDeep);
 		var expected =  ['tests/fixtures/partials/_partial_importing_partial_scss.scss' ];
 
