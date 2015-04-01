@@ -22,19 +22,33 @@
     "getDependents": "./index.js"
   },
   "scripts": {
-    "jshint": "jshint index.js",
+    "pretest": "jshint **/*.js",
     "test": "mocha **/test.js"
   },
   "dependencies": {
-    "glob": "^4.0.5",
-    "nopt": "^3.0.1",
-    "verboser": "^1.0.3"
+    "glob": "5.0.x",
+    "nopt": "3.0.x",
+    "verboser": "1.1.x"
   },
   "devDependencies": {
-    "jshint": "^2.5.5",
-    "mocha": "^1.21.4"
+    "jshint": "2.6.x",
+    "mocha": "2.2.x"
   },
   "files": [
     "index.js"
-  ]
+  ],
+  "jshintConfig": {
+    "curly": true,
+    "eqeqeq": true,
+    "immed": true,
+    "latedef": true,
+    "newcap": true,
+    "noarg": true,
+    "sub": true,
+    "undef": true,
+    "boss": true,
+    "eqnull": true,
+    "node": true,
+    "mocha": true
+  }
 }
