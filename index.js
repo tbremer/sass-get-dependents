@@ -1,16 +1,16 @@
 'use strict';
-var startTime = Date.now();
-var endTime;
-var fs = require('fs');
-var glob = require('glob');
-var path = require('path');
-var verbose = require('verboser');
-var encoding = {encoding: 'utf8'};
+var startTime = Date.now(),
+    endTime,
+    fs = require('fs'),
+    glob = require('glob'),
+    path = require('path'),
+    verbose = require('verboser'),
+    encoding = {encoding: 'utf8'};
 
 var checkForImports = function (src) {
-  var contents;
-  var importRegEx = new RegExp("@import");
-  var matchingFiles = [];
+  var contents,
+      importRegEx = new RegExp("@import"),
+      matchingFiles = [];
   src.forEach(function (cur) {
     contents = fs.readFileSync(cur, encoding);
     if (importRegEx.test(contents) && matchingFiles.indexOf(cur) === -1) {
@@ -21,11 +21,11 @@ var checkForImports = function (src) {
 };
 
 var readImportStatements = function (file, statements) {
-  var contents;
-  var matchingFiles = [];
-  var basename = path.basename(file, (path.extname(file)));
-  var fileName = (basename[0] === '_') ? basename.substring(1, basename.length) : basename;
-  var importRegEx = new RegExp('@import[\\s]+([\'|"./\\w]+?)' + fileName + '[\'|"];?');
+  var contents,
+      matchingFiles = [],
+      basename = path.basename(file, (path.extname(file))),
+      fileName = (basename[0] === '_') ? basename.substring(1, basename.length) : basename,
+      importRegEx = new RegExp('@import[\\s]+([\'|"./\\w]+?)' + fileName + '[\'|"];?');
 
   statements.forEach(function (cur) {
     contents = fs.readFileSync(cur, encoding);
@@ -49,11 +49,11 @@ module.exports = function (source) {
   }
 
   // Okay, the basics are there. Lets build the patterns
-  var fileExt = path.extname(source);
-  var fileSearch = glob.sync('**/*' + fileExt);
-  var filesWithImports = checkForImports(fileSearch);
-  var allRelPaths = [];
-  var allDependentFiles = [];
+  var fileExt = path.extname(source),
+      fileSearch = glob.sync('**/*' + fileExt),
+      filesWithImports = checkForImports(fileSearch),
+      allRelPaths = [],
+      allDependentFiles = [];
 
   verbose.log('These files have import statements:');
   verbose.log(filesWithImports).linebreak();

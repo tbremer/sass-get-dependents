@@ -1,6 +1,6 @@
 {
   "name": "sass-get-dependents",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Track files that depend on your SCSS/SASS partial.",
   "repository": "tbremer/sass-get-dependents",
   "bugs": {
@@ -23,7 +23,7 @@
     "getDependents": "bin/getDependents.js"
   },
   "scripts": {
-    "pretest": "jshint **/*.js",
+    "pretest": "jshint **/*.js && jscs **/*.js",
     "test": "mocha **/test.js"
   },
   "dependencies": {
@@ -32,6 +32,7 @@
     "verboser": "1.1.x"
   },
   "devDependencies": {
+    "jscs": "^1.12.0",
     "jshint": "2.6.x",
     "mocha": "2.2.x"
   },
