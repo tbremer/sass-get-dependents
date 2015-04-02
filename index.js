@@ -3,13 +3,8 @@ var startTime = Date.now();
 var endTime;
 var fs = require('fs');
 var glob = require('glob');
-var nopt = require("nopt");
 var path = require('path');
 var verbose = require('verboser');
-var knownOpts = {
-  "file": String
-};
-var args = nopt(knownOpts);
 var encoding = {encoding: 'utf8'};
 
 var checkForImports = function (src) {
