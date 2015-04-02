@@ -11,6 +11,7 @@ var checkForImports = function (src) {
   var contents,
       importRegEx = new RegExp("@import"),
       matchingFiles = [];
+
   src.forEach(function (cur) {
     contents = fs.readFileSync(cur, encoding);
     if (importRegEx.test(contents) && matchingFiles.indexOf(cur) === -1) {
@@ -29,7 +30,7 @@ var readImportStatements = function (file, statements) {
 
   statements.forEach(function (cur) {
     contents = fs.readFileSync(cur, encoding);
-    if (importRegEx.test(contents) == true) {
+    if (importRegEx.test(contents) === true) {
       matchingFiles.push(cur);
     }
   });
