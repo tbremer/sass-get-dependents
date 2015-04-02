@@ -1,13 +1,6 @@
-#!/usr/local/bin/node
-/*
- * sass-get-dependents
- * https://github.com/tbremer/sass-get-dependents
- *
- * Copyright (c) 2014 Thomas Bremer, contributors
- * Licensed under the MIT license.
-*/
 'use strict';
 var startTime = Date.now();
+var endTime;
 var fs = require('fs');
 var glob = require('glob');
 var nopt = require("nopt");
@@ -77,11 +70,5 @@ module.exports = function (source) {
 	return allDependentFiles;
 };
 
-// Executable bits
-if (args.file) {
-	verbose.force();
-	module.exports(args.file);
-}
-
-var endTime = Date.now();
+endTime = Date.now();
 verbose.log(endTime - startTime + 'ms to complete');

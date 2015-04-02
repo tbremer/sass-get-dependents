@@ -20,7 +20,7 @@
     "url": "http://mise.io"
   },
   "bin": {
-    "getDependents": "./index.js"
+    "getDependents": "bin/getDependents.js"
   },
   "scripts": {
     "pretest": "jshint **/*.js",
