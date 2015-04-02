@@ -80,7 +80,6 @@
   "disallowMixedSpacesAndTabs": true,
   "disallowTrailingComma": true,
   "disallowKeywordsOnNewLine": ["else"],
-  "maximumLineLength": 120,
   "requireCapitalizedConstructors": true,
   "safeContextKeyword": ["that"],
   "disallowYodaConditions": true,
