@@ -48,7 +48,6 @@ var dependentFiles = function (files, i) {
   var f = files[i],
     dependents = readImportStatements(f);
 
-
   files.push(dependents);
   files = [].concat.apply([], files);
 
@@ -86,10 +85,11 @@ module.exports = function (source) {
     }
   });
 
+
   verbose.log('These are all the dependentFiles:');
   verbose.log(allDependentFiles);
 
-  return results;
+  return allDependentFiles;
 };
 
 endTime = Date.now();
