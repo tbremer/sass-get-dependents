@@ -20,7 +20,7 @@
     "url": "http://mise.io"
   },
   "bin": {
-    "getDependents": "bin/index.js"
+    "getDependents": "./bin/getDependents"
   },
   "scripts": {
     "pretest": "jshint **.js bin/**.js tests/**.js && jscs **/*.js",
@@ -36,9 +36,6 @@
     "jshint": "2.6.x",
     "mocha": "2.2.x"
   },
-  "files": [
-    "index.js"
-  ],
   "jshintConfig": {
     "curly": true,
     "eqeqeq": true,
