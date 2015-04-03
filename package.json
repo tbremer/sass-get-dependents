@@ -23,7 +23,7 @@
     "getDependents": "./bin/getDependents"
   },
   "scripts": {
-    "pretest": "jshint *.js bin/*.js tests/*.js && jscs **/*.js",
+    "pretest": "jshint **.js bin/* tests/**.js && jscs **/*.js",
     "test": "mocha **/test.js"
   },
   "dependencies": {

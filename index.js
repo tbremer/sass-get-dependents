@@ -23,14 +23,13 @@ var checkForImports = function (src) {
 };
 
 var readImportStatements = function (file) {
-  var contents,
-  matchingFiles = [],
+  var matchingFiles = [],
   basename = path.basename(file, (path.extname(file))),
   fileName = (basename[0] === '_') ? basename.substring(1, basename.length) : basename,
   importRegEx = new RegExp('@import[\\s]+([\'|"./\\w]+?)' + fileName + '[\'|"];?');
 
   filesWithImports.forEach(function (cur) {
-    contents = fs.readFileSync(cur, encoding);
+    var contents = fs.readFileSync(cur, encoding);
     if (importRegEx.test(contents) === true) {
       matchingFiles.push(cur);
     }

@@ -25,7 +25,7 @@ describe('sass-get-dependents', function () {
     assert.deepEqual(actual, expected);
   });
 
-  it('reads files', function () {
+  it('returns single file that is imported', function () {
     var actual = dependsOn(scss),
     expected = ['tests/fixtures/import_partial_scss.scss'];
 
@@ -35,7 +35,6 @@ describe('sass-get-dependents', function () {
   it('returns multiple files when partials import partials', function () {
     var actual = dependsOn(scssTwoDeep),
     expected = ['tests/fixtures/partials/_partial_importing_partial_scss.scss', 'tests/fixtures/partial_two_deep_scss.scss'];
-
 
     assert.deepEqual(actual, expected);
   });
