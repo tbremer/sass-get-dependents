@@ -1,17 +1,16 @@
 'use strict';
 var startTime = Date.now(),
-endTime,
-fs = require('fs'),
-glob = require('glob'),
-path = require('path'),
-verbose = require('verboser'),
-encoding = {encoding: 'utf8'},
-filesWithImports;
+  fs = require('fs'),
+  glob = require('glob'),
+  path = require('path'),
+  verbose = require('verboser'),
+  encoding = {encoding: 'utf8'},
+  endTime, filesWithImports;
 
 var checkForImports = function (src) {
   var contents,
   importRegEx = new RegExp("@import"),
-  matchingFiles = [];
+    matchingFiles = [];
 
   src.forEach(function (cur) {
     contents = fs.readFileSync(cur, encoding);
@@ -24,9 +23,9 @@ var checkForImports = function (src) {
 
 var readImportStatements = function (file) {
   var matchingFiles = [],
-  basename = path.basename(file, (path.extname(file))),
-  fileName = (basename[0] === '_') ? basename.substring(1, basename.length) : basename,
-  importRegEx = new RegExp('@import[\\s]+([\'|"./\\w]+?)' + fileName + '[\'|"];?');
+    basename = path.basename(file, (path.extname(file))),
+    fileName = (basename[0] === '_') ? basename.substring(1, basename.length) : basename,
+    importRegEx = new RegExp('@import[\\s]+([\'|"./\\w]+?)' + fileName + '[\'|"];?');
 
   filesWithImports.forEach(function (cur) {
     var contents = fs.readFileSync(cur, encoding);
@@ -47,7 +46,8 @@ var dependentFiles = function (files, i) {
   }
 
   var f = files[i],
-  dependents = readImportStatements(f);
+    dependents = readImportStatements(f);
+
 
   files.push(dependents);
   files = [].concat.apply([], files);
@@ -69,21 +69,27 @@ module.exports = function (source) {
 
   // Okay, the basics are there. Lets build the patterns
   var fileExt = path.extname(source),
-  fileSearch = glob.sync('**/*' + fileExt),
-  allRelPaths = [],
-  allDependentFiles = [];
+    fileSearch = glob.sync('**/*' + fileExt),
+    allRelPaths = [],
+    allDependentFiles = [],
+    results = [];
 
   filesWithImports = checkForImports(fileSearch);
 
   verbose.log('These files have import statements:');
   verbose.log(filesWithImports).linebreak();
 
-  allDependentFiles = dependentFiles([source]);
+  results = dependentFiles([source]);
+  results.forEach(function (el) {
+    if (allDependentFiles.indexOf(el) === -1) {
+      allDependentFiles.push(el);
+    }
+  });
 
   verbose.log('These are all the dependentFiles:');
   verbose.log(allDependentFiles);
 
-  return allDependentFiles;
+  return results;
 };
 
 endTime = Date.now();
